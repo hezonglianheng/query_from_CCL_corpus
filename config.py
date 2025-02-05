@@ -3,7 +3,7 @@
 from pathlib import Path
 
 # encodings.
-CORPUS_ENCODING = "gbk"
+CORPUS_ENCODING = "gb18030"
 QUERY_ENCODING = "utf8"
 OUTPUT_ENCODING = "utf8"
 
