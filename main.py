@@ -31,7 +31,7 @@ async def word_match(word: str, file_path: Path, ancestor_path: Path):
     # 获得一系列匹配的文本片段
     matched: list[str] = []
     try:
-        async with aiofiles.open(file_path, "r", encoding=config.CORPUS_ENCODING) as f:
+        async with aiofiles.open(file_path, "r", encoding=config.CORPUS_ENCODING, errors="ignore") as f:
             content = await f.read()
             for match in re.finditer(word, content):
                 start_position = max(0, match.start() - config.DISPLAY_WINDOW)
