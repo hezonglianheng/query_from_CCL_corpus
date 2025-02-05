@@ -34,8 +34,16 @@ async def word_match(word: str, file_path: Path, ancestor_path: Path):
         async with aiofiles.open(file_path, "r", encoding=config.CORPUS_ENCODING, errors="ignore") as f:
             content = await f.read()
             for match in re.finditer(word, content):
-                start_position = max(0, match.start() - config.DISPLAY_WINDOW)
-                end_position = min(len(content), match.end() + config.DISPLAY_WINDOW)
+                # 查找距离匹配词最近的上一个换行符位置，没有则置为0
+                last_newline = content.rfind("\n", 0, match.start())
+                if last_newline == -1:
+                    last_newline = 0
+                # 查找距离匹配词最近的下一个换行符位置，没有则置为文本末尾
+                next_newline = content.find("\n", match.end())
+                if next_newline == -1:
+                    next_newline = len(content)
+                start_position = max(0, match.start() - config.DISPLAY_WINDOW, last_newline + 1)
+                end_position = min(len(content), match.end() + config.DISPLAY_WINDOW, next_newline)
                 matched_slice = content[start_position:match.start()] + "【" + content[match.start():match.end()] + "】" + content[match.end():end_position]
                 matched.append(matched_slice)
     except Exception as e:
