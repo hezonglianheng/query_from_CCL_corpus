@@ -1,0 +1,2 @@
+# query_from_CCL_corpus
+用于从本地的CCL语料库中，根据文件中的文本片段提取语料
