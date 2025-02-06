@@ -6,7 +6,6 @@ import asyncio
 from collections.abc import Iterator
 from pathlib import Path
 import re
-from itertools import product
 
 def read_query_file() -> Iterator[str]:
     """读取查询词集文件
@@ -99,9 +98,10 @@ def main():
     for file in Path(config.OUTPUT_DIR).rglob("*.txt"):
         file.unlink()
     # 读取查询词集文件
-    for word, subpath in product(read_query_file(), config.SUB_PATHS):
-        ancient_corpus_match(word) # 先查找古代语料库
-        sub_corpus_match(word, subpath) # 再查找现代语料库
+    for word in read_query_file():
+        ancient_corpus_match(word) # 查找古代语料库中的匹配词
+        for sub_path in config.SUB_PATHS:
+            sub_corpus_match(word, sub_path) # 查找现代语料库中的匹配词
 
 if __name__ == "__main__":
     main()
