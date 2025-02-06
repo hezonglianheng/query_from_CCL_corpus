@@ -8,7 +8,7 @@ QUERY_ENCODING = "utf8"
 OUTPUT_ENCODING = "utf8"
 
 # files.
-QUERY_FILE = Path(__file__).parent / "words_set_small.txt" # 查询词集文件路径，请勿改动
+QUERY_FILE = Path(__file__).parent / "words_set.txt" # 查询词集文件路径，请勿改动
 CORPUS_PATH = Path(__file__).parents[1] / "整理后语料V3/整理后语料V3/xiandai" # 现代汉语部分语料库路径，请勿改动
 ANCIENT_CORPUS_PATH = Path(__file__).parents[1] / "整理后语料V3/整理后语料V3/gudai" # 古代汉语部分语料库路径，请勿改动
 
