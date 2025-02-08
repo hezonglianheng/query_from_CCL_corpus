@@ -117,7 +117,7 @@ def word_match(word: str, file_path: Path, ancestor_path: Path, file_pool: FileP
                 if line[-1] != "\n":
                     line += "\n"
                 f.write(f"【来源: {output_path}】" + line)
-                print(f"在{output_path}中找到匹配词“{word}”")
+                # print(f"在{output_path}中找到匹配词“{word}”")
 
 def sub_corpus_match(word_batch: list[str], sub_path: str):
     """查找语料库中的匹配词，并将匹配的文本片段写入文件
@@ -163,15 +163,15 @@ def process(curr_query: str):
     """
     words = read_query_file(curr_query)
     word_batches: list[list[str]] = [words[i:i + config.WORD_BATCH_SIZE] for i in range(0, len(words), config.WORD_BATCH_SIZE)]
-    print(f"共{len(words)}个查询词，分为{len(word_batches)}个批次")
+    print(f"文件{curr_query}中共{len(words)}个查询词，分为{len(word_batches)}个批次")
     for i, word_batch in enumerate(word_batches, start=1):
         start_time = time.time()
-        print(f"正在处理第{i}批次...")
+        print(f"正在处理文件{curr_query}中的第{i}批次...")
         ancient_corpus_match(word_batch)
         for sub_path in config.SUB_PATHS:
             sub_corpus_match(word_batch, sub_path)
         end_time = time.time()
-        print(f"第{i}批次处理完毕，耗时{end_time - start_time:.2f}秒")
+        print(f"文件{curr_query}中的第{i}批次处理完毕，耗时{end_time - start_time:.2f}秒")
 
 if __name__ == "__main__":
     import argparse
