@@ -1,6 +1,7 @@
 # encoding: utf8
 
 from pathlib import Path
+import os
 
 # encodings.
 CORPUS_ENCODING = "gb18030"
@@ -37,4 +38,8 @@ SUB_PATHS = [
 DISPLAY_WINDOW = 50
 
 # batch size.
-BATCH_SIZE = 100
+BATCH_SIZE = 256
+WORD_BATCH_SIZE = 32
+
+# max workers.
+MAX_WORKERS = min(32, os.cpu_count() * 4)
