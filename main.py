@@ -6,7 +6,7 @@ import subprocess
 import platform # 用于判断操作系统
 
 # 子进程数量
-sub_process_num = 8
+sub_process_num = 1
 
 def main():
     # 清空输出文件夹
@@ -29,19 +29,23 @@ def main():
     for i in range(sub_process_num):
         if (curr_system := platform.system()) == "Windows":
             processes.append(subprocess.Popen(["python", "process.py", f"temp_batch/batch_{i}.txt"]))
+            # 等待子进程结束
+            for process in processes:
+                process.wait()
         elif curr_system == "Linux":
             # 在Linux下使用nohup命令使子进程离线运行，使用&符号使子进程在后台运行
-            processes.append(subprocess.Popen(["nohup", "python", "process.py", f"temp_batch/batch_{i}.txt", "&"]))
+            command = f"nohup python process.py temp_batch/batch_{i}.txt &"
+            subprocess.Popen(command, shell=True)
+            print(f"子进程{i}已启动")
         else:
             print(f"暂不支持操作系统{curr_system}，请联系开发者")
             return
-    # 等待子进程结束
-    for process in processes:
-        process.wait()
+    """
     # 删除临时文件夹
     for file in Path("temp_batch").rglob("*"):
         file.unlink()
     Path("temp_batch").rmdir()
+    """
 
 if __name__ == "__main__":
     main()
